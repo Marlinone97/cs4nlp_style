@@ -2,6 +2,9 @@
 import pandas as pd
 import torch
 from torch.utils.data import Dataset, DataLoader
+
+# we need both BART and RoBERTa 
+
 from transformers import (
     BartTokenizer, BartForConditionalGeneration,
     AutoTokenizer, AutoModel,
@@ -22,6 +25,7 @@ warnings.filterwarnings("ignore")
 
 class CycleStyleDataset(Dataset):
     def __init__(self, obama_path, trump_path):
+        
         df_o = pd.read_csv(obama_path)
         df_t = pd.read_csv(trump_path)
 
@@ -95,6 +99,8 @@ dataset = CycleStyleDataset("all_obama_sent.csv", "all_trump_sent.csv")
 loader = DataLoader(dataset, batch_size=4, shuffle=True)
 
 # === 5. Training Loop ===
+
+# what are we trying to achieve in this training loop in terms of our data?
 optimizer = AdamW(model.parameters(), lr=5e-5)
 epochs = 10
 
